@@ -89,14 +89,30 @@ def respond(sock):
     log.info("--- Received request ----")
     log.info("Request was {}\n***\n".format(request))
 
-    parts = request.split()
-    if len(parts) > 1 and parts[0] == "GET":
-        transmit(STATUS_OK, sock)
-        transmit(CAT, sock)
+    if ('~' in request or '//' in request or '..' in request):
+        transmit(STATUS_FORBIDDEN, sock)
     else:
-        log.info("Unhandled request: {}".format(request))
-        transmit(STATUS_NOT_IMPLEMENTED, sock)
-        transmit("\nI don't handle this request: {}\n".format(request), sock)
+        parts = request.split()
+        if len(parts) > 0 and parts[0] == "GET":
+            isPath = False;
+            try:
+                with open(f"./pages{parts[1]}", 'r') as file:
+                    isPath = True;
+                file.close()
+            except:
+                pass
+            if isPath:
+                transmit(STATUS_OK, sock)
+                with open(f"./pages{parts[1]}", 'r') as file:
+                    content = file.read()
+                    transmit(content, sock)
+                file.close()
+            else:
+                transmit(STATUS_NOT_FOUND, sock)
+        else:
+            log.info("Unhandled request: {}".format(request))
+            transmit(STATUS_NOT_IMPLEMENTED, sock)
+            transmit("\nI don't handle this request: {}\n".format(request), sock)
 
     sock.shutdown(socket.SHUT_RDWR)
     sock.close()
