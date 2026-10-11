@@ -31,7 +31,7 @@ The objectives of this mini-project are:
 * Revise this README.md file: Erase what is no longer relevant and add identifying information. If you have concerns about adding your email ID, let the instructors know.
   
   ```
-  ## Author: John Doe, jdoe@uoregon.edu
+  ## Author: Jack Abram, jabram@uoregon.edu
   ```
   
 * Copy the `credentials-skel.ini` file to `credentials.ini`, then edit it to contain correct information including your Bitbucket repository URL. `credentials.ini` should NOT be under version control (exclude it using your `.gitignore` file)
